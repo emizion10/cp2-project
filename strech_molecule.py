@@ -19,9 +19,9 @@ def strech_molecule():
         else:
             (coordinates[atom_count - 1])[int(axis) - 1] += delta
         atom_count += 1
-        
+
     streched_result=n_atoms,result[1],result[2],coordinates
 
-    writexyz_function(streched_result, 'streched'+filename)
+    writexyz_function(streched_result, 'streched_'+filename)
 
 strech_molecule()
