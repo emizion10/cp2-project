@@ -1,4 +1,4 @@
-def createxyz(array, filename):
+def writexyz_function(array, filename):
     atoms = array[2]
     positions_float = array[3]
 
@@ -7,7 +7,6 @@ def createxyz(array, filename):
     for position in positions_float:
        position_str = [str(coordinate) + '\t'for coordinate in position]
        positions_str.append(position_str)
-    print(positions_str)
 
     with open(filename, "w") as file:
         file.write(str(array[0]))
@@ -19,5 +18,3 @@ def createxyz(array, filename):
             file.writelines(positions_str[atom_index])
             file.write('\n')
     file.close()
-
-createxyz('water.xyz')

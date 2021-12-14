@@ -2,7 +2,7 @@
 
 #######read xyz file######
 
-def readxyz(filename):
+def readxyz_function(filename):
    symbols = []
    coordinates = [] 
          
@@ -19,5 +19,3 @@ def readxyz(filename):
         file.close()
    return num_atoms, comment, symbols, coordinates
     
-result=readxyz('example/orca/water/water.xyz')
-print(result)
