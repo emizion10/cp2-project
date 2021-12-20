@@ -6,4 +6,4 @@ end
 
 %maxcore  1024
 
-* xyzfile 0 1 water.xyz
+* xyzfile 0 1 streched_water.xyz
