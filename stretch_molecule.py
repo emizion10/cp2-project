@@ -2,10 +2,10 @@ from readxyz import readxyz_function
 from writexyz import writexyz_function
 
 
-def strech_molecule(filename):
-    atom1 = int(input('Enter first atom ?'))
-    atom2 = int(input('Enter second atom ?'))
-    delta = 0.01
+def stretch_molecule(filename):
+    atom1 = int(input('Enter first atom ? '))
+    atom2 = int(input('Enter second atom ? '))
+    delta = float(input('Enter the distance to be stretched ? '))
 
     result = readxyz_function(filename)
 

@@ -1,9 +1,0 @@
-! OPT BP86 cc-pvdz
-
-%pal
-nproc = 4
-end
-
-%maxcore  1024
-
-* xyzfile 0 1 streched_water.xyz
