@@ -12,9 +12,10 @@ def read_write_trj(filename,i):
     with open(filename,"r") as file:
         lines = file.readlines()
         fi = open("water"+str(i)+".xyz","w")
-        fi.writelines(lines[5:])  
+        print(lines[-5:], "water"+str(i)+".xyz")
+        fi.writelines(lines[-5:])
 
-for i in range(0,2):
+for i in range(0,100):
     if(i==0):
         os.system('runorca_4_2 water.inp')
         read_write_trj('water_trj.xyz',i)
@@ -22,11 +23,10 @@ for i in range(0,2):
         xyz_to_orca('stretched_water0.xyz')
     else:
         os.system('runorca_4_2 stretched_water'+str(i-1)+'.inp')
-        read_write_trj('water_trj'+str(i)+'.xyz',i)
+        os.system('rm stretched_water'+str(i-1)+'.inp')
+        read_write_trj('stretched_water'+str(i-1)+'_trj.xyz',i)
+        os.system('rm stretched_water'+str(i-1)+'_trj.xyz')
         stretch_molecule('water'+str(i)+'.xyz')
+        os.system('rm water'+str(i)+'.xyz')
         xyz_to_orca('stretched_water'+str(i)+'.xyz')
-
-
-
-# stretch_molecule(filename)
-# xyz_to_orca('stretched_'+filename)
+        os.system('rm stretched_water'+str(i)+'.xyz')
