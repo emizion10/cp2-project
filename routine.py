@@ -17,7 +17,7 @@ args = parser.parse_args()
 
 atom1 = int(args.atom1)
 atom2 = int(args.atom2)
-delta = int(args.delta)
+delta = float(args.delta)
 iteration = int(args.iteration)
 
 # Sample command to run
@@ -37,7 +37,7 @@ def read_write_trj(filename,i):
 
 for i in range(0,iteration):
     if(i==0):
-        os.system('runorca_4_2'+ molecule + '_orca.inp')
+        os.system('runorca_4_2 '+ molecule + '_orca.inp')
         read_write_trj(molecule+'_orca_trj.xyz',i)
         stretch_molecule(molecule+'0.xyz', atom1,atom2,delta)
         xyz_to_orca('stretched_'+molecule+'0.xyz')
