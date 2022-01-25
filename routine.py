@@ -26,29 +26,31 @@ iteration = int(args.iteration)
 
 xyz_to_orca(args.filename)
 
+molecule = args.filename.split('.')[0]
+
 
 def read_write_trj(filename,i):
     with open(filename,"r") as file:
         lines = file.readlines()
-        fi = open("input_epoxy"+str(i)+".xyz","w")
+        fi = open(molecule+str(i)+".xyz","w")
         fi.writelines(lines[-5:])
 
 for i in range(0,iteration):
     if(i==0):
-        os.system('runorca_4_2 input_epoxy.inp')
-        read_write_trj('input_epoxy_trj.xyz',i)
-        stretch_molecule('input_epoxy0.xyz', atom1,atom2,delta)
-        xyz_to_orca('stretched_input_epoxy0.xyz')
-        os.system('runorca_4_2 stretched_input_epoxy0.inp')
+        os.system('runorca_4_2'+ molecule + '_orca.inp')
+        read_write_trj(molecule+'_orca_trj.xyz',i)
+        stretch_molecule(molecule+'0.xyz', atom1,atom2,delta)
+        xyz_to_orca('stretched_'+molecule+'0.xyz')
+        os.system('runorca_4_2 stretched_'+molecule+'0_orca.inp')
     else:
-       read_write_trj('stretched_input_epoxy'+str(i-1)+'_trj.xyz',i)
-       stretch_molecule('input_epoxy'+str(i)+'.xyz',atom1,atom2,delta)
-       xyz_to_orca('stretched_input_epoxy'+str(i)+'.xyz')
-       os.system('runorca_4_2 stretched_input_epoxy'+str(i)+'.inp')
+       read_write_trj('stretched_'+molecule+str(i-1)+'_orca_trj.xyz',i)
+       stretch_molecule(molecule+str(i)+'.xyz',atom1,atom2,delta)
+       xyz_to_orca('stretched_'+molecule+str(i)+'.xyz')
+       os.system('runorca_4_2 stretched_'+molecule+str(i)+'_orca.inp')
        if(i<iteration-1):
-           os.system('rm stretched_input_epoxy'+str(i-1)+'.xyz')
-           os.system('rm stretched_input_epoxy'+str(i-1)+'.inp')
-           os.system('rm stretched_input_epoxy'+str(i-1)+'_trj.xyz')
-           os.system('rm stretched_input_epoxy'+str(i-1)+'.out')
-           os.system('rm stretched_input_epoxy'+str(i-1)+'.gbw')
-           os.system('rm input_epoxy'+str(i)+'.xyz')
+           os.system('rm stretched_'+molecule+str(i-1)+'.xyz')
+           os.system('rm stretched_'+molecule+str(i-1)+'.inp')
+           os.system('rm stretched_'+molecule+str(i-1)+'_trj.xyz')
+           os.system('rm stretched_'+molecule+str(i-1)+'.out')
+           os.system('rm stretched_'+molecule+str(i-1)+'.gbw')
+           os.system('rm '+molecule+str(i)+'.xyz')
