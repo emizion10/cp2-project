@@ -24,4 +24,4 @@ def stretch_molecule(filename,atom1,atom2,delta):
 
     streched_result = n_atoms, result[1], result[2], coordinates
 
-    writexyz_function(streched_result, 'streched_'+filename)
+    writexyz_function(streched_result, 'stretched_'+filename)

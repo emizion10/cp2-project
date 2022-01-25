@@ -49,8 +49,8 @@ for i in range(0,iteration):
        os.system('runorca_4_2 stretched_'+molecule+str(i)+'_orca.inp')
        if(i<iteration-1):
            os.system('rm stretched_'+molecule+str(i-1)+'.xyz')
-           os.system('rm stretched_'+molecule+str(i-1)+'.inp')
-           os.system('rm stretched_'+molecule+str(i-1)+'_trj.xyz')
-           os.system('rm stretched_'+molecule+str(i-1)+'.out')
-           os.system('rm stretched_'+molecule+str(i-1)+'.gbw')
+           os.system('rm stretched_'+molecule+str(i-1)+'_orca.inp')
+           os.system('rm stretched_'+molecule+str(i-1)+'_orca_trj.xyz')
+           os.system('rm stretched_'+molecule+str(i-1)+'_orca.out')
+           os.system('rm stretched_'+molecule+str(i-1)+'_orca.gbw')
            os.system('rm '+molecule+str(i)+'.xyz')
