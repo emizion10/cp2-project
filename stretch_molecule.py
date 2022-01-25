@@ -3,11 +3,7 @@ from writexyz import writexyz_function
 import math
 
 
-def stretch_molecule(filename):
-    atom1 = int(input('Enter first atom ? '))
-    atom2 = int(input('Enter second atom ? '))
-    delta = float(input('Enter the distance to be stretched ? '))
-
+def stretch_molecule(filename,atom1,atom2,delta):
     result = readxyz_function(filename)
 
     n_atoms = result[0]

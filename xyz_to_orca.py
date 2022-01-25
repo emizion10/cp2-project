@@ -9,7 +9,7 @@ def xyz_to_orca(filename):
     command11 = 'end'
     multiplicity = '1'
     # write data from array into a orca input file
-    with open(filename.split('.')[0] +'.inp', "w") as file:
+    with open('input_'+ filename.split('.')[0] +'.inp', "w") as file:
         # specifications
         file.write(command1)
         file.write('\n')
