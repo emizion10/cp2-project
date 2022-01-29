@@ -42,12 +42,12 @@ def read_write_trj(filename,i):
 for i in range(0,iteration):
     if(i==0):
         os.system('runorca_4_2 '+ molecule + '_orca.inp')
-        read_write_trj(molecule+'_orca_trj.xyz',i)
+        read_write_trj(molecule+'_orca.xyz',i)
         stretch_molecule(molecule+'0.xyz', atom1,atom2,delta)
         xyz_to_orca('stretched_'+molecule+'0.xyz')
         os.system('runorca_4_2 stretched_'+molecule+'0_orca.inp')
     else:
-       read_write_trj('stretched_'+molecule+str(i-1)+'_orca_trj.xyz',i)
+       read_write_trj('stretched_'+molecule+str(i-1)+'_orca.xyz',i)
        stretch_molecule(molecule+str(i)+'.xyz',atom1,atom2,delta)
        xyz_to_orca('stretched_'+molecule+str(i)+'.xyz')
        os.system('runorca_4_2 stretched_'+molecule+str(i)+'_orca.inp')
@@ -55,6 +55,7 @@ for i in range(0,iteration):
            os.system('rm stretched_'+molecule+str(i-1)+'.xyz')
            os.system('rm stretched_'+molecule+str(i-1)+'_orca.inp')
            os.system('rm stretched_'+molecule+str(i-1)+'_orca_trj.xyz')
+           os.system('rm stretched_'+molecule+str(i-1)+'_orca.xyz')
            os.system('rm stretched_'+molecule+str(i-1)+'_orca.out')
            os.system('rm stretched_'+molecule+str(i-1)+'_orca.gbw')
            os.system('rm '+molecule+str(i)+'.xyz')
