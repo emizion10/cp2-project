@@ -37,7 +37,7 @@ def read_write_trj(filename,i):
         lines = file.readlines()
         fi = open(molecule+str(i)+".xyz","w")
         fi.writelines(lines[-5:])
-        tr_file.append(lines[-5:])
+        tr_file.writelines(lines[-5:])
 
 for i in range(0,iteration):
     if(i==0):
