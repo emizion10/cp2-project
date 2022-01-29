@@ -29,11 +29,15 @@ xyz_to_orca(args.filename)
 molecule = args.filename.split('.')[0]
 
 
+tr_file = open('trajectory.xyz','a')
+
+
 def read_write_trj(filename,i):
     with open(filename,"r") as file:
         lines = file.readlines()
         fi = open(molecule+str(i)+".xyz","w")
         fi.writelines(lines[-5:])
+        tr_file.append(lines[-5:])
 
 for i in range(0,iteration):
     if(i==0):
