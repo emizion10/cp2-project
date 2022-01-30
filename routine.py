@@ -21,7 +21,7 @@ delta = float(args.delta)
 iteration = int(args.iteration)
 
 # Sample command to run
-# python3 epoxy.xyz 1 2 0.01 3
+# python3 routine.py epoxy.xyz 1 2 0.01 3
 
 
 xyz_to_orca(args.filename)
@@ -36,8 +36,9 @@ def read_write_trj(filename,i):
     with open(filename,"r") as file:
         lines = file.readlines()
         fi = open(molecule+str(i)+".xyz","w")
-        fi.writelines(lines[-5:])
-        tr_file.writelines(lines[-5:])
+        for line in lines:
+            fi.write(line)
+            tr_file.write(line)
 
 for i in range(0,iteration):
     if(i==0):
