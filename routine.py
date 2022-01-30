@@ -52,7 +52,7 @@ for i in range(0,iteration):
        stretch_molecule(molecule+str(i)+'.xyz',atom1,atom2,delta)
        xyz_to_orca('stretched_'+molecule+str(i)+'.xyz')
        os.system('runorca_4_2 stretched_'+molecule+str(i)+'_orca.inp')
-       if(i<iteration-1):
+       if(i<iteration):
            os.system('rm stretched_'+molecule+str(i-1)+'.xyz')
            os.system('rm stretched_'+molecule+str(i-1)+'_orca.inp')
            os.system('rm stretched_'+molecule+str(i-1)+'_orca_trj.xyz')
