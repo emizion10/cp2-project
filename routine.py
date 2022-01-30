@@ -8,11 +8,11 @@ from writexyz import writexyz_function
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("filename")
-parser.add_argument("atom1")
-parser.add_argument("atom2")
-parser.add_argument("delta")
-parser.add_argument("iteration")
+parser.add_argument("filename", help="Filename of the molecule:")
+parser.add_argument("atom1", help="Atom 1 to be stretched")
+parser.add_argument("atom2",help="Atom 2 to be stretched")
+parser.add_argument("delta", help="Distance to be stretched")
+parser.add_argument("iteration", help="No of iterations needed")
 args = parser.parse_args()
 
 atom1 = int(args.atom1)
@@ -52,11 +52,11 @@ for i in range(0,iteration):
        stretch_molecule(molecule+str(i)+'.xyz',atom1,atom2,delta)
        xyz_to_orca('stretched_'+molecule+str(i)+'.xyz')
        os.system('runorca_4_2 stretched_'+molecule+str(i)+'_orca.inp')
-       if(i<iteration):
-           os.system('rm stretched_'+molecule+str(i-1)+'.xyz')
-           os.system('rm stretched_'+molecule+str(i-1)+'_orca.inp')
-           os.system('rm stretched_'+molecule+str(i-1)+'_orca_trj.xyz')
-           os.system('rm stretched_'+molecule+str(i-1)+'_orca.xyz')
-           os.system('rm stretched_'+molecule+str(i-1)+'_orca.out')
-           os.system('rm stretched_'+molecule+str(i-1)+'_orca.gbw')
-           os.system('rm '+molecule+str(i)+'.xyz')
+
+       os.system('rm stretched_'+molecule+str(i-1)+'.xyz')
+       os.system('rm stretched_'+molecule+str(i-1)+'_orca.inp')
+       os.system('rm stretched_'+molecule+str(i-1)+'_orca_trj.xyz')
+       os.system('rm stretched_'+molecule+str(i-1)+'_orca.xyz')
+       os.system('rm stretched_'+molecule+str(i-1)+'_orca.out')
+       os.system('rm stretched_'+molecule+str(i-1)+'_orca.gbw')
+       os.system('rm '+molecule+str(i)+'.xyz')
