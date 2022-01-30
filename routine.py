@@ -58,7 +58,6 @@ for i in range(0,iteration):
        os.system('rm stretched_'+molecule+str(i-1)+'.xyz')
        os.system('rm stretched_'+molecule+str(i-1)+'_orca.inp')
        os.system('rm stretched_'+molecule+str(i-1)+'_orca_trj.xyz')
-       os.system('rm stretched_'+molecule+str(i-1)+'_orca.xyz')
        os.system('rm stretched_'+molecule+str(i-1)+'_orca.out')
        os.system('rm stretched_'+molecule+str(i-1)+'_orca.gbw')
        os.system('rm '+molecule+str(i)+'.xyz')
