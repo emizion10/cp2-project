@@ -31,28 +31,30 @@ molecule = args.filename.split('.')[0]
 
 tr_file = open('trajectory.xyz','a')
 
-
-def read_write_trj(filename,i):
+# Function to append coordinates to trajectory file
+def write_trajectory_file(filename,i):
     with open(filename,"r") as file:
         lines = file.readlines()
-        fi = open(molecule+str(i)+".xyz","w")
         for line in lines:
-            fi.write(line)
             tr_file.write(line)
 
 for i in range(0,iteration):
     if(i==0):
         os.system('runorca_4_2 '+ molecule + '_orca.inp')
-        read_write_trj(molecule+'_orca.xyz',i)
+        write_trajectory_file(molecule+'_orca.xyz',i)
+        # Renaming epoxy_orca.xyz to epoxy0.xyz
+        os.rename(molecule+'_orca.xyz',molecule+str(i)+'.xyz')
         stretch_molecule(molecule+'0.xyz', atom1,atom2,delta)
         xyz_to_orca('stretched_'+molecule+'0.xyz')
         os.system('runorca_4_2 stretched_'+molecule+'0_orca.inp')
     else:
-       read_write_trj('stretched_'+molecule+str(i-1)+'_orca.xyz',i)
+       write_trajectory_file('stretched_'+molecule+str(i-1)+'_orca.xyz',i)
+       # Eg:- Renaming stretched_epoxy0_orca.xyz to epoxy1.xyz
+       os.rename('stretched_'+molecule+str(i-1)+'_orca.xyz',molecule+str(i)+'.xyz')
        stretch_molecule(molecule+str(i)+'.xyz',atom1,atom2,delta)
        xyz_to_orca('stretched_'+molecule+str(i)+'.xyz')
        os.system('runorca_4_2 stretched_'+molecule+str(i)+'_orca.inp')
-
+       # Removing unwanted files
        os.system('rm stretched_'+molecule+str(i-1)+'.xyz')
        os.system('rm stretched_'+molecule+str(i-1)+'_orca.inp')
        os.system('rm stretched_'+molecule+str(i-1)+'_orca_trj.xyz')
