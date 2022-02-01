@@ -35,7 +35,7 @@ def write_trajectory_file(filename,energy):
     with open(filename,"r") as file:
         for  line_number,line in enumerate(file):
             if line_number == 1:
-                tr_file.write('Energy is:-',str(energy))
+                tr_file.write('Energy is:-'+str(energy))
             tr_file.write(line)
 
 for i in range(0,iteration):
