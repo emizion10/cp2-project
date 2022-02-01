@@ -35,8 +35,9 @@ energy_file = open('energy.xyz','a')
 def write_trajectory_file(filename,energy):
     energy_file.write(str(energy))
     with open(filename,"r") as file:
-        lines = file.readlines()
-        for line in lines:
+        for  line_number,line in enumerate(file):
+            if line_number == 2:
+                line = line+ '  ' + str(energy)
             tr_file.write(line)
 
 for i in range(0,iteration):
