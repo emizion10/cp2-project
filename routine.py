@@ -3,8 +3,7 @@ import argparse
 
 from xyz_to_orca import xyz_to_orca
 from stretch_molecule import stretch_molecule
-from readxyz import readxyz_function
-from writexyz import writexyz_function
+from energy import readenergy_function
 
 
 parser = argparse.ArgumentParser()
@@ -30,9 +29,11 @@ molecule = args.filename.split('.')[0]
 
 
 tr_file = open('trajectory.xyz','a')
+energy_file = open('energy.xyz','a')
 
 # Function to append coordinates to trajectory file
-def write_trajectory_file(filename,i):
+def write_trajectory_file(filename,energy):
+    energy_file.write(energy)
     with open(filename,"r") as file:
         lines = file.readlines()
         for line in lines:
@@ -41,14 +42,16 @@ def write_trajectory_file(filename,i):
 for i in range(0,iteration):
     if(i==0):
         os.system('runorca_4_2 '+ molecule + '_orca.inp')
-        write_trajectory_file(molecule+'_orca.xyz',i)
+        energy = readenergy_function(molecule+'_orca.out')
+        write_trajectory_file(molecule+'_orca.xyz',energy)
         # Renaming epoxy_orca.xyz to epoxy0.xyz
         os.rename(molecule+'_orca.xyz',molecule+str(i)+'.xyz')
         stretch_molecule(molecule+'0.xyz', atom1,atom2,delta)
         xyz_to_orca('stretched_'+molecule+'0.xyz')
         os.system('runorca_4_2 stretched_'+molecule+'0_orca.inp')
     else:
-       write_trajectory_file('stretched_'+molecule+str(i-1)+'_orca.xyz',i)
+       energy = readenergy_function('stretched'+molecule+str(i-1)+'_orca.out')
+       write_trajectory_file('stretched_'+molecule+str(i-1)+'_orca.xyz',energy)
        # Eg:- Renaming stretched_epoxy0_orca.xyz to epoxy1.xyz
        os.rename('stretched_'+molecule+str(i-1)+'_orca.xyz',molecule+str(i)+'.xyz')
        stretch_molecule(molecule+str(i)+'.xyz',atom1,atom2,delta)
