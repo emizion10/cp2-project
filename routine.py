@@ -33,7 +33,7 @@ energy_file = open('energy.xyz','a')
 
 # Function to append coordinates to trajectory file
 def write_trajectory_file(filename,energy):
-    energy_file.write(energy)
+    energy_file.write(str(energy))
     with open(filename,"r") as file:
         lines = file.readlines()
         for line in lines:
