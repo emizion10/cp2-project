@@ -50,7 +50,7 @@ for i in range(0,iteration):
         xyz_to_orca('stretched_'+molecule+'0.xyz')
         os.system('runorca_4_2 stretched_'+molecule+'0_orca.inp')
     else:
-       energy = readenergy_function('stretched'+molecule+str(i-1)+'_orca.out')
+       energy = readenergy_function('stretched_'+molecule+str(i-1)+'_orca.out')
        write_trajectory_file('stretched_'+molecule+str(i-1)+'_orca.xyz',energy)
        # Eg:- Renaming stretched_epoxy0_orca.xyz to epoxy1.xyz
        os.rename('stretched_'+molecule+str(i-1)+'_orca.xyz',molecule+str(i)+'.xyz')
