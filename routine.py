@@ -29,15 +29,13 @@ molecule = args.filename.split('.')[0]
 
 
 tr_file = open('trajectory.xyz','a')
-energy_file = open('energy.xyz','a')
 
 # Function to append coordinates to trajectory file
 def write_trajectory_file(filename,energy):
-    energy_file.write(str(energy))
     with open(filename,"r") as file:
         for  line_number,line in enumerate(file):
-            if line_number == 2:
-                line = line+ '  ' + str(energy)
+            if line_number == 1:
+                tr_file.write('Energy is:-',str(energy))
             tr_file.write(line)
 
 for i in range(0,iteration):
