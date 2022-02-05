@@ -35,10 +35,11 @@ energies = []
 bond_lengths = []
 
 def write_energy_bondlength(energy, coordinates):
+    print(energy, coordinates)
     coordinate_diff = []
     for i in range(3):
         coordinate_diff.append(coordinates[atom1][i]-coordinates[atom2][i])
-
+        print(coordinate_diff)
         bond_length = math.sqrt(coordinate_diff[0]**2 + coordinate_diff[1]
                             **2 + coordinate_diff[2]**2)
         energies.append(energy)
