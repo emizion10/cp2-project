@@ -38,7 +38,9 @@ displacement = [str(i * delta) + ' ' for i in range(iteration)]       # list of 
 # Writing energies & displacement to energy file
 def write_energies():
     energy_file = open(molecule+'_energies.txt','w')
-    energy_file.write(energies,displacement)
+    energy_file.writelines(energies)                                                       # first line energies
+    energy_file.write('\n')
+    energy_file.writelines(displacement)  
 
 
 # Function to append coordinates to trajectory file
