@@ -32,35 +32,23 @@ molecule = args.filename.split('.')[0]
 tr_file = open('trajectory.xyz','a')
 
 energies = []
-bond_lengths = []
+displacement = [str(i * delta) + ' ' for i in range(iteration)]       # list of distances
 
-def write_energy_bondlength(energy, coordinates):
 
-    coordinate_diff = []
-    for i in range(3):
-        coordinate_diff.append(coordinates[atom1][i]-coordinates[atom2][i])
-
-    bond_length = math.sqrt(coordinate_diff[0]**2 + coordinate_diff[1]
-                            **2 + coordinate_diff[2]**2)
-    energies.append(energy)
-    bond_lengths.append(bond_length)
+# Writing energies & displacement to energy file
+def write_energies():
+    energy_file = open(molecule+'_energies.txt','w')
+    energy_file.write(energies,displacement)
 
 
 # Function to append coordinates to trajectory file
 def write_trajectory_file(filename,energy):
-    coordinates = []
     with open(filename,"r") as file:
         for  line_number,line in enumerate(file):
-            if line_number == 0:
-                continue
             if line_number == 1:
                 tr_file.write('Energy is:'+str(energy))
-            else:
-                atomic_symbol, x, y, z = line.split() 
-                coordinates.append([float(x), float(y), float(z)])
-
             tr_file.write(line)
-    write_energy_bondlength(energy, coordinates)
+    energies.append[energy]
     
 
 for i in range(0,iteration):
@@ -90,5 +78,4 @@ for i in range(0,iteration):
        os.system('rm '+molecule+str(i)+'.xyz')
 
 
-print(energies)
-print(bond_lengths)
+write_energies()
