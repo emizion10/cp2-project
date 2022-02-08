@@ -24,7 +24,6 @@ iteration = int(args.iteration)
 # python3 routine.py epoxy.xyz 1 2 0.01 3
 
 
-xyz_to_orca(args.filename)
 
 molecule = args.filename.split('.')[0]
 
@@ -51,32 +50,32 @@ def write_trajectory_file(filename,energy):
                 tr_file.write('Energy is:'+str(energy))
             tr_file.write(line)
     energies.append(energy.rstrip("\n")+ ' ')
+
+
+
+# First iteration
+xyz_to_orca(args.filename)
+os.system('runorca_4_2 '+ molecule + '_orca.inp')
+energy = readenergy_function(molecule+'_orca.out')
+write_trajectory_file(molecule+'_orca.xyz',energy)
+# Renaming epoxy_orca.xyz to epoxy0.xyz
+os.rename(molecule+'_orca.xyz',molecule+'0.xyz')
     
 
 for i in range(0,iteration):
-    if(i==0):
-        os.system('runorca_4_2 '+ molecule + '_orca.inp')
-        energy = readenergy_function(molecule+'_orca.out')
-        write_trajectory_file(molecule+'_orca.xyz',energy)
-        # Renaming epoxy_orca.xyz to epoxy0.xyz
-        os.rename(molecule+'_orca.xyz',molecule+str(i)+'.xyz')
-        stretch_molecule(molecule+'0.xyz', atom1,atom2,delta)
-        xyz_to_orca('stretched_'+molecule+'0.xyz')
-        os.system('runorca_4_2 stretched_'+molecule+'0_orca.inp')
-    else:
-       energy = readenergy_function('stretched_'+molecule+str(i-1)+'_orca.out')
-       write_trajectory_file('stretched_'+molecule+str(i-1)+'_orca.xyz',energy)
-       # Eg:- Renaming stretched_epoxy0_orca.xyz to epoxy1.xyz
-       os.rename('stretched_'+molecule+str(i-1)+'_orca.xyz',molecule+str(i)+'.xyz')
        stretch_molecule(molecule+str(i)+'.xyz',atom1,atom2,delta)
        xyz_to_orca('stretched_'+molecule+str(i)+'.xyz')
        os.system('runorca_4_2 stretched_'+molecule+str(i)+'_orca.inp')
+       energy = readenergy_function('stretched_'+molecule+str(i)+'_orca.out')
+       write_trajectory_file('stretched_'+molecule+str(i)+'_orca.xyz',energy)
+       # Eg:- Renaming stretched_epoxy0_orca.xyz to epoxy1.xyz
+       os.rename('stretched_'+molecule+str(i)+'_orca.xyz',molecule+str(i+1)+'.xyz')
        # Removing unwanted files
-       os.system('rm stretched_'+molecule+str(i-1)+'.xyz')
-       os.system('rm stretched_'+molecule+str(i-1)+'_orca.inp')
-       os.system('rm stretched_'+molecule+str(i-1)+'_orca_trj.xyz')
-       os.system('rm stretched_'+molecule+str(i-1)+'_orca.out')
-       os.system('rm stretched_'+molecule+str(i-1)+'_orca.gbw')
+       os.system('rm stretched_'+molecule+str(i)+'.xyz')
+       os.system('rm stretched_'+molecule+str(i)+'_orca.inp')
+       os.system('rm stretched_'+molecule+str(i)+'_orca_trj.xyz')
+       os.system('rm stretched_'+molecule+str(i)+'_orca.out')
+       os.system('rm stretched_'+molecule+str(i)+'_orca.gbw')
        os.system('rm '+molecule+str(i)+'.xyz')
 
 
