@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import argparse
 import math
@@ -5,7 +7,7 @@ import math
 from xyz_to_orca import xyz_to_orca
 from stretch_molecule import stretch_molecule
 from energy import readenergy_function
-
+from stretch import stretch
 
 parser = argparse.ArgumentParser()
 parser.add_argument("filename", help="Filename of the molecule:")
@@ -37,41 +39,44 @@ displacement = [str(i * delta) + ' ' for i in range(iteration)]       # list of 
 # Writing energies & displacement to energy file
 def write_energies():
     energy_file = open(molecule+'_energies.txt','w')
-    energy_file.writelines(energies)                                                       # first line energies
-    energy_file.write('\n')
-    energy_file.writelines(displacement)  
+    for i in range(len(energies)):
+        text = displacement[i] + ' ' + energies[i]
+        energy_file.write(text)
+        energy_file.write('\n')  
 
 
 # Function to append coordinates to trajectory file
-def write_trajectory_file(filename,energy):
+def write_trajectory_file(filename,energy, not_converged):
     with open(filename,"r") as file:
         for  line_number,line in enumerate(file):
             tr_file.write(line)
-    energies.append(energy.rstrip("\n")+ ' ')
+    if(not_converged!=1):
+        energies.append(energy+ ' ')
 
 
 
 # First iteration
-xyz_to_orca(args.filename)
+xyz_to_orca(args.filename, atom1, atom2)
 os.system('runorca_4_2 '+ molecule + '_orca.inp')
-energy = readenergy_function(molecule+'_orca.out')
-write_trajectory_file(molecule+'_orca.xyz',energy)
+energy, not_converged = readenergy_function(molecule+'_orca.out')
+write_trajectory_file(molecule+'_orca.xyz',energy, not_converged)
 # Renaming epoxy_orca.xyz to epoxy0.xyz
 os.rename(molecule+'_orca.xyz',molecule+'0.xyz')
+
     
 
 for i in range(0,iteration):
-       stretch_molecule(molecule+str(i)+'.xyz',atom1,atom2,delta)
-       xyz_to_orca('stretched_'+molecule+str(i)+'.xyz')
+       stretch(molecule+str(i)+'.xyz',atom1,atom2,delta)
+       xyz_to_orca('stretched_'+molecule+str(i)+'.xyz', atom1, atom2)
        os.system('runorca_4_2 stretched_'+molecule+str(i)+'_orca.inp')
-       energy = readenergy_function('stretched_'+molecule+str(i)+'_orca.out')
-       write_trajectory_file('stretched_'+molecule+str(i)+'_orca.xyz',energy)
+       energy, not_converged = readenergy_function('stretched_'+molecule+str(i)+'_orca.out')
+       write_trajectory_file('stretched_'+molecule+str(i)+'_orca.xyz',energy, not_converged)
        # Eg:- Renaming stretched_epoxy0_orca.xyz to epoxy1.xyz
        os.rename('stretched_'+molecule+str(i)+'_orca.xyz',molecule+str(i+1)+'.xyz')
        # Removing unwanted files
        os.system('rm stretched_'+molecule+str(i)+'.xyz')
        os.system('rm stretched_'+molecule+str(i)+'_orca.inp')
-       os.system('rm stretched_'+molecule+str(i)+'_orca_trj.xyz')
+      # os.system('rm stretched_'+molecule+str(i)+'_orca_trj.xyz')
        os.system('rm stretched_'+molecule+str(i)+'_orca.out')
        os.system('rm stretched_'+molecule+str(i)+'_orca.gbw')
        os.system('rm '+molecule+str(i)+'.xyz')
